@@ -1,0 +1,14 @@
+{
+  "name": "node_ftp_deploy",
+  "version": "0.0.1",
+  "description": "Deploy from local folder to remote folder",
+  "main": "deploy.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Stanley Cheung",
+  "license": "MIT",
+  "dependencies": {
+    "ftp": "^0.3.10"
+  }
+}
