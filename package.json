@@ -1,14 +1,22 @@
 {
-  "name": "node_ftp_deploy",
-  "version": "0.0.1",
+  "name": "nodedeploy",
+  "version": "1.0.0",
   "description": "Deploy from local folder to remote folder",
-  "main": "deploy.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Stanley Cheung",
   "license": "MIT",
-  "dependencies": {
-    "ftp": "^0.3.10"
+  "preferGlobal": true,
+  "bin": {
+    "nodedeploy": "index.js"
+  },
+  "bugs": {
+    "url": "https://github.com/stanleybz/node-ftp-deploy/issues"
+  },
+  "homepage": "https://github.com/stanleybz/node-ftp-deploy",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stanleybz/node-ftp-deploy"
   }
 }

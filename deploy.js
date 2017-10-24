@@ -5,37 +5,39 @@ const fs = require('fs');
 const process = require('process');
 
 const fullPath = __dirname;
-const totalFile = 0;
-const finishedFile = 0;
+let totalFile = 0;
+let finishedFile = 0;
 
 const c = new Client();
 
-class nodeFtpDeploy {
+class NodeFtpDeploy {
 
-	constructor(fbToken) {
+	constructor(host, username, password, localFolder, remoteFolder) {
 		// e.g. '/httpdocs';
-    var remoteFullPath = 'REMOTE_FOLDER';
+    this.remoteFullPath = remoteFolder;
+		this.localFolder = localFolder;
 
     c.connect({
-      host: 'FTP_HOST',
-      user: 'FTP_USERNAME',
-      password: 'FTP_PASSWORD',
+      host: host,
+      user: username,
+      password: password,
     });
 
     c.on('ready', function() {
-
       console.log('Remember to build before upload');
 			// e.g. '/build';
-      redDir('LOCAL_FOLDER');
+      this.redDir(localFolder);
+    }.bind(this));
 
-    });
+		this.loopFolderFiles = this.loopFolderFiles.bind(this);
+		this.redDir = this.redDir.bind(this);
   }
 
 
   loopFolderFiles(files, subPath) {
     files.forEach( function( file, index ) {
-        if (fs.lstatSync(fullPath + subPath + '/' + file).isDirectory()) {
-          redDir(subPath + '/' + file);
+        if (fs.lstatSync(subPath + '/' + file).isDirectory()) {
+          this.redDir(subPath + '/' + file);
         } else {
 
           totalFile++;
@@ -43,8 +45,9 @@ class nodeFtpDeploy {
 
           // Must call after ready
 					// e.g. '/httpdocs';
-          c.mkdir('REMOTE_FOLDER' + subPath, true, function() {
-            c.put(fullPath + subPath + '/' + file, remoteFullPath + subPath + '/' + file, function(err) {
+
+					c.mkdir(this.remoteFullPath + subPath.substr(this.localFolder.length), true, function() {
+            c.put(subPath + '/' + file, this.remoteFullPath + subPath.substr(this.localFolder.length) + '/' + file, function(err) {
               if (err) {
                 throw err;
               }
@@ -55,22 +58,22 @@ class nodeFtpDeploy {
                 c.end();
               }
             })
-          })
+          }.bind(this))
         }
-    });
+    }.bind(this));
   }
 
   redDir(subPath) {
-    fs.readdir( fullPath + subPath, function( err, files ) {
+    fs.readdir( subPath, function( err, files ) {
         if( err ) {
             console.error( "Could not list the directory.", err );
             process.exit( 1 );
         }
 
-        loopFolderFiles(files, subPath);
-    });
+        this.loopFolderFiles(files, subPath);
+    }.bind(this));
   }
 
 }
 
-module.exports = exports = nodeFtpDeploy;
+module.exports = exports = NodeFtpDeploy;
