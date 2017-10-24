@@ -7,6 +7,7 @@ A simple folder to folder deploy tools, some time just don't want to git push an
 ## How to use
 
 `npm install -g node-ftp-deploy`
+
 `nodedeploy ftp_host username password folder_in_running_path remote_path`
 
 > Example
