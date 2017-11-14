@@ -2,7 +2,7 @@
 
 # node-ftp-deploy
 
-A simple folder to folder deploy tools, some time just don't want to git push and run CI for small project ;D
+A simple folder to folder deploy tools, some time just don't want to git push and run CI for small project.
 
 ## How to use
 
